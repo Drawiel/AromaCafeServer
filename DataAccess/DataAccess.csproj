@@ -89,7 +89,7 @@
     <Compile Include="Pedido.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="ProductManager.cs" />
+    <Compile Include="ProductManagerDB.cs" />
     <Compile Include="Producto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

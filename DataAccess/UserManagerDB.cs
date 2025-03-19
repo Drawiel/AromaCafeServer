@@ -171,13 +171,13 @@ namespace DataAccess
         public static int DisableEmployee(int employeeId)
         {
 
-            int profileDesabled = 0;
+            int profileDisabled = 0;
 
             try
             {
                 using (var context = new AromaCafeBDEntities())
                 {
-                    var employee = context.Empleado.SingleOrDefault(e => e.idEmpleado == employeeId);
+                    var employee = context.Empleado.FirstOrDefault(e => e.idEmpleado == employeeId);
 
                     if (employee != null)
                     {
@@ -191,23 +191,23 @@ namespace DataAccess
                     }
                 }
             }
-            catch (SqlException sqlException)
+            catch (SqlException )
             {
-                profileDesabled = -1;
+                profileDisabled = -1;
             }
-            catch (InvalidOperationException invalidOperationException)
+            catch (InvalidOperationException )
             {
-                profileDesabled = -1;
+                profileDisabled = -1;
             }
-            catch (EntityException entityException)
+            catch (EntityException)
             {
-                profileDesabled = -1;
+                profileDisabled = -1;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-                profileDesabled = -1;
+                profileDisabled = -1;
             }
-            return profileDesabled;
+            return profileDisabled;
         }
 
         public static Empleado GetEmployee(int employeeId)
@@ -216,75 +216,54 @@ namespace DataAccess
             {
                 using (var context = new AromaCafeBDEntities())
                 {
-                    var employeeEntity = context.Empleado.SingleOrDefault(e => e.idEmpleado == employeeId);
+                    var employee = context.Empleado.FirstOrDefault(e => e.idEmpleado == employeeId);
 
-                    if (employeeEntity == null)
+                    if (employee == null)
                         return null;
 
-                    return new Employee
-                    {
-                        EmployeeId = employeeEntity.idEmpleado,
-                        Name = employeeEntity.NombreEmpleado,
-                        LastName = employeeEntity.ApellidoEmpleado,
-                        Email = employeeEntity.Correo,
-                        PostalCode = employeeEntity.CodigoPostal,
-                        EmployeeAddress = employeeEntity.DireccionEmpleado,
-                        Username = employeeEntity.Usuario,
-                        EmployeeType = employeeEntity.TipoEmpleado
-                    };
+                    return employee;
                 }
             }
-            catch (SqlException sqlException)
+            catch (SqlException)
             {
                 return null;
             }
-            catch (InvalidOperationException invalidOperationException)
+            catch (InvalidOperationException)
             {
                 return null;
             }
-            catch (EntityException entityException)
+            catch (EntityException)
             {
                 return null;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return null;
             }
         }
 
-        public static List<Employee> GetAllEmployee()
+        public static List<Empleado> GetAllEmployee()
         {
             try
             {
                 using (var context = new AromaCafeBDEntities())
                 {
-                    return context.Empleado
-                        .Select(e => new Employee
-                        {
-                            EmployeeId = e.idEmpleado,
-                            Name = e.NombreEmpleado,
-                            LastName = e.ApellidoEmpleado,
-                            Email = e.Correo,
-                            PostalCode = e.CodigoPostal,
-                            EmployeeAddress = e.DireccionEmpleado,
-                            Username = e.Usuario,
-                            EmployeeType = e.TipoEmpleado
-                        }).ToList();
+                    return context.Empleado.ToList();
                 }
             }
-            catch (SqlException sqlException)
+            catch (SqlException)
             {
                 return null;
             }
-            catch (InvalidOperationException invalidOperationException)
+            catch (InvalidOperationException)
             {
                 return null;
             }
-            catch (EntityException entityException)
+            catch (EntityException)
             {
                 return null;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return null;
             }

@@ -24,6 +24,6 @@ namespace AromaCafeService {
         List<Employee> GetAllEmployee();
 
         [OperationContract]
-        Employee GetEmployeeInformation();
+        Employee GetEmployeeInformation(int employeeId);
     }
 }
