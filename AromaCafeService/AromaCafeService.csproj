@@ -73,6 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmployeeServiceImplementation.cs" />
+    <Compile Include="IEmployeeManager.cs" />
     <Compile Include="ILogInManager.cs" />
     <Compile Include="LogInServiceImplementation.cs" />
     <Compile Include="Models\Employee.cs" />

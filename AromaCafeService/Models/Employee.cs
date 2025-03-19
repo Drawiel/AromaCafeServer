@@ -22,6 +22,14 @@ namespace AromaCafeService.Models
         [DataMember]
         public string Name { get { return name; } set { name = value; } }
         [DataMember]
+        public string LastName { get; set; }
+        [DataMember]
+        public string Email { get; set; }
+        [DataMember]
+        public string PostalCode { get; set; }
+        [DataMember] 
+        public string EmployeeAddress { get; set; }
+        [DataMember]
         public string Username { get { return username; } set { username = value; } }
         [DataMember]
         public string Password { get { return password; } set { password = value; } }

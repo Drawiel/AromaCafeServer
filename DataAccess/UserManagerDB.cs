@@ -111,5 +111,27 @@ namespace DataAccess
             }
             return turnOpened;
         }
+
+        public static int UpdateProfile(Empleado updatedEmployee) {
+
+            int profileUpdated = 0;
+
+            try {
+                using (var context = new AromaCafeBDEntities()) {
+                    var update = (from employee in context.Empleado where employee.Correo == updatedEmployee.Correo select employee).Single();
+                    update = updatedEmployee;
+                    profileUpdated = 1;
+                }
+            } catch (SqlException sqlException) {
+                profileUpdated = -1;
+            } catch (InvalidOperationException invalidOperationException) {
+                profileUpdated = -1;
+            } catch (EntityException entityException) {
+                profileUpdated = -1;
+            } catch (Exception exception) {
+                profileUpdated = -1;
+            }
+            return profileUpdated;
+        }
     }
 }
