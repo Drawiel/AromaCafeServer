@@ -133,5 +133,127 @@ namespace DataAccess
             }
             return profileUpdated;
         }
+
+        public static int DisableEmployee(int employeeId)
+        {
+
+            int profileDesabled = 0;
+
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var employee = context.Empleado.SingleOrDefault(e => e.idEmpleado == employeeId);
+
+                    if (employee != null)
+                    {
+                        employee.TipoEmpleado = "Inhabil"; 
+                        context.SaveChanges();
+                        profileDisabled = 1; 
+                    }
+                    else
+                    {
+                        profileDisabled = -2; 
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                profileDesabled = -1;
+            }
+            catch (InvalidOperationException invalidOperationException)
+            {
+                profileDesabled = -1;
+            }
+            catch (EntityException entityException)
+            {
+                profileDesabled = -1;
+            }
+            catch (Exception exception)
+            {
+                profileDesabled = -1;
+            }
+            return profileDesabled;
+        }
+
+        public static Empleado GetEmployee(int employeeId)
+        {
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var employeeEntity = context.Empleado.SingleOrDefault(e => e.idEmpleado == employeeId);
+
+                    if (employeeEntity == null)
+                        return null;
+
+                    return new Employee
+                    {
+                        EmployeeId = employeeEntity.idEmpleado,
+                        Name = employeeEntity.NombreEmpleado,
+                        LastName = employeeEntity.ApellidoEmpleado,
+                        Email = employeeEntity.Correo,
+                        PostalCode = employeeEntity.CodigoPostal,
+                        EmployeeAddress = employeeEntity.DireccionEmpleado,
+                        Username = employeeEntity.Usuario,
+                        EmployeeType = employeeEntity.TipoEmpleado
+                    };
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                return null;
+            }
+            catch (InvalidOperationException invalidOperationException)
+            {
+                return null;
+            }
+            catch (EntityException entityException)
+            {
+                return null;
+            }
+            catch (Exception exception)
+            {
+                return null;
+            }
+        }
+
+        public static List<Employee> GetAllEmployee()
+        {
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    return context.Empleado
+                        .Select(e => new Employee
+                        {
+                            EmployeeId = e.idEmpleado,
+                            Name = e.NombreEmpleado,
+                            LastName = e.ApellidoEmpleado,
+                            Email = e.Correo,
+                            PostalCode = e.CodigoPostal,
+                            EmployeeAddress = e.DireccionEmpleado,
+                            Username = e.Usuario,
+                            EmployeeType = e.TipoEmpleado
+                        }).ToList();
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                return null;
+            }
+            catch (InvalidOperationException invalidOperationException)
+            {
+                return null;
+            }
+            catch (EntityException entityException)
+            {
+                return null;
+            }
+            catch (Exception exception)
+            {
+                return null;
+            }
+        }
     }
 }

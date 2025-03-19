@@ -27,5 +27,21 @@ namespace AromaCafeService {
         public int RegisterEmployee(Employee employee) {
             throw new NotImplementedException();
         }
+
+        public int DisableEmployee(Employee employee)
+        {
+            int employeeDisabled = UserManagerDB.DisableEmployee(employee.employeeId);
+            return employeeDisabled;
+        }
+
+        public List<Employee> GetAllEmployee()
+        {
+            return UserManagerDB.GetAllEmployee();
+        }
+
+        public Employee GetEmployeeInformation(int employeeId)
+        {
+            return UserManagerDB.GetEmployee(employeeId);
+        }
     }
 }

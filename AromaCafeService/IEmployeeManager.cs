@@ -16,5 +16,14 @@ namespace AromaCafeService {
 
         [OperationContract]
         int RegisterEmployee(Employee employee);
+
+        [OperationContract]
+        int DisableEmployee(Employee employee);
+
+        [OperationContract]
+        List<Employee> GetAllEmployee();
+
+        [OperationContract]
+        Employee GetEmployeeInformation();
     }
 }
