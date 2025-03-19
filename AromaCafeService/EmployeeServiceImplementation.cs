@@ -25,7 +25,19 @@ namespace AromaCafeService {
         }
 
         public int RegisterEmployee(Employee employee) {
-            throw new NotImplementedException();
+            var employeeReceived = new Empleado
+            {
+                NombreEmpleado = employee.Name,
+                ApellidoEmpleado = employee.LastName,
+                Correo = employee.Email,
+                Usuario = employee.Username,
+                DireccionEmpleado = employee.EmployeeAddress,
+                CodigoPostal = employee.PostalCode,
+                TipoEmpleado = employee.EmployeeType
+            };
+            
+            int employeeRegistered = UserManagerDB.RegisterEmployee(employeeReceived);
+            return employeeRegistered;
         }
     }
 }
