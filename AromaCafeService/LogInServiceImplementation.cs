@@ -4,7 +4,7 @@ using System;
 
 namespace AromaCafeService
 {
-    public class LogInServiceImplementation : ILogInManager
+    public partial class ServiceImplementation : ILogInManager
     {
         public int CheckTurnOpened(string username)
         {

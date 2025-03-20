@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace AromaCafeService
 {
-    public class ProductServiceImplementation : IProductManager
+    public partial class ServiceImplementation : IProductManager
     {
         public List<Product> GetAllProducts()
         {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AromaCafeService {
-    public class EmployeeServiceImplementation : IEmployeeManager{
+    public partial class ServiceImplementation : IEmployeeManager{
 
         public int UpdateProfile(Employee employee) {
             var updatedProfile = new Empleado {
