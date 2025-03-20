@@ -25,6 +25,7 @@ namespace AromaCafeService
             employeeSerialized.Username = employeeObtained.Usuario;
             employeeSerialized.Password = employeeObtained.CodigoAcceso;
             employeeSerialized.Name = employeeObtained.NombreEmpleado + " " + employeeObtained.ApellidoEmpleado;
+            employeeSerialized.EmployeeType = employeeObtained.TipoEmpleado;
             return employeeSerialized;
         }
     }
