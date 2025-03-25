@@ -152,9 +152,17 @@ namespace DataAccess
 
             try {
                 using (var context = new AromaCafeBDEntities()) {
-                    var update = (from employee in context.Empleado where employee.Correo == updatedEmployee.Correo select employee).Single();
-                    update = updatedEmployee;
-                    profileUpdated = 1;
+                    var update = (from employee in context.Empleado where employee.idEmpleado == updatedEmployee.idEmpleado select employee).Single();
+                    update.NombreEmpleado = updatedEmployee.NombreEmpleado;
+                    update.ApellidoEmpleado = updatedEmployee.ApellidoEmpleado;
+                    update.Correo = updatedEmployee.Correo;
+                    update.TipoEmpleado = updatedEmployee.TipoEmpleado;
+                    update.DireccionEmpleado = updatedEmployee.DireccionEmpleado;
+                    update.Usuario = updatedEmployee.Usuario;
+                    update.CodigoAcceso = updatedEmployee.CodigoAcceso;
+                    update.CodigoPostal = updatedEmployee.CodigoPostal;
+                    update.DireccionEmpleado = updatedEmployee.DireccionEmpleado;
+                    profileUpdated = context.SaveChanges();
                 }
             } catch (SqlException) {
                 profileUpdated = -1;
