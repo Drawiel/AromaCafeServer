@@ -25,5 +25,8 @@ namespace AromaCafeService {
 
         [OperationContract]
         Employee GetEmployeeInformation(int employeeId);
+
+        [OperationContract]
+        string UpdateAccessCodeProfile(Employee employee);
     }
 }

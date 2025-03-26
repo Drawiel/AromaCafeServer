@@ -69,5 +69,49 @@ namespace XUnitTest_Server
 
             Assert.Equal(employeesExpected, employeesObtained);
         }
+
+        [Fact]
+        public void TestUpdateProfileSuccess() {
+            Empleado employee = new Empleado {
+                idEmpleado = 2,
+                NombreEmpleado = "Eduardo",
+                ApellidoEmpleado = "Perez",
+                DireccionEmpleado = "Calle Falsa 34",
+                Correo = "juanperez@emal.com",
+                TipoEmpleado = "Gerente",
+                Usuario = "jperez",
+            };
+            
+            int employeesObtained = UserManagerDB.UpdateProfile(employee);
+
+            Assert.Equal(1, employeesObtained);
+        }
+
+        [Fact]
+        public void TestUpdateAccessCodeProfileSuccess() {
+            Empleado employee = new Empleado {
+                idEmpleado = 2,
+            };
+
+            string employeesUpdated = UserManagerDB.UpdateAccessCodeProfile(employee);
+
+            Assert.NotEmpty(employeesUpdated);
+        }
+
+        [Fact]
+        public void TestGetEmployeeSuccess() {
+
+            Empleado employeesObtained = UserManagerDB.GetEmployee(2);
+
+            Assert.Equal(2, employeesObtained.idEmpleado);
+        }
+
+        [Fact]
+        public void TestGetAllEmployeeSuccess() {
+
+            List<Empleado> employeesObtained = UserManagerDB.GetAllEmployee();
+
+            Assert.NotEmpty(employeesObtained);
+        }
     }
 }

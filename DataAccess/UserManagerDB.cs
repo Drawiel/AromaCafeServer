@@ -158,9 +158,15 @@ namespace DataAccess
 
             try {
                 using (var context = new AromaCafeBDEntities()) {
-                    var update = (from employee in context.Empleado where employee.Correo == updatedEmployee.Correo select employee).Single();
-                    update = updatedEmployee;
-                    profileUpdated = 1;
+                    var update = (from employee in context.Empleado where employee.idEmpleado == updatedEmployee.idEmpleado select employee).Single();
+                    update.NombreEmpleado = updatedEmployee.NombreEmpleado;
+                    update.ApellidoEmpleado = updatedEmployee.ApellidoEmpleado;
+                    update.Correo = updatedEmployee.Correo;
+                    update.TipoEmpleado = updatedEmployee.TipoEmpleado;
+                    update.Usuario = updatedEmployee.Usuario;
+                    update.CodigoPostal = updatedEmployee.CodigoPostal;
+                    update.DireccionEmpleado = updatedEmployee.DireccionEmpleado;
+                    profileUpdated = context.SaveChanges();
                 }
             } catch (SqlException) {
                 profileUpdated = -1;
@@ -172,6 +178,30 @@ namespace DataAccess
                 profileUpdated = -1;
             }
             return profileUpdated;
+        }
+
+        public static string UpdateAccessCodeProfile(Empleado updatedEmployee) {
+
+            string newAccessCode = " ";
+
+            try {
+                using (var context = new AromaCafeBDEntities()) {
+                    newAccessCode = PasswordEncryptor.GeneratePassword();
+                    var update = (from employee in context.Empleado where employee.idEmpleado == updatedEmployee.idEmpleado select employee).Single();
+                    update.CodigoAcceso = newAccessCode;
+
+                    context.SaveChanges();
+                }
+            } catch (SqlException) {
+                newAccessCode = "Error";
+            } catch (InvalidOperationException) {
+                newAccessCode = "Error";
+            } catch (EntityException) {
+                newAccessCode = "Error";
+            } catch (Exception) {
+                newAccessCode = "Error";
+            }
+            return newAccessCode;
         }
 
         public static int DisableEmployee(int employeeId)
