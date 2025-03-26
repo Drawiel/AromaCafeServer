@@ -15,7 +15,7 @@ namespace AromaCafeService {
         int UpdateProfile(Employee employee);
 
         [OperationContract]
-        int RegisterEmployee(Employee employee);
+        string RegisterEmployee(Employee employee);
 
         [OperationContract]
         int DisableEmployee(Employee employee);

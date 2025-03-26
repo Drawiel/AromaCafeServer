@@ -9,6 +9,20 @@ namespace DataAccess.Helpers
 {
     public static class PasswordEncryptor
     {
+        public static string GeneratePassword()
+        {
+            List<string> existentPasswords = UserManagerDB.GetAllPasswords();
+            Random random = new Random();
+            string newPassword;
+
+            do
+            {
+                newPassword = random.Next(10000, 99999).ToString();
+            } while (existentPasswords.Contains(newPassword));
+
+            return newPassword;
+        }
+
         public static string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())

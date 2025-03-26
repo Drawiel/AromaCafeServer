@@ -18,6 +18,9 @@ namespace AromaCafeService
         int OpenTurn(string username);
 
         [OperationContract]
+        int CloseTurn(string password);
+
+        [OperationContract]
         int CheckTurnOpened(string username);
     }
 }
