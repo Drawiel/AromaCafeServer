@@ -157,9 +157,7 @@ namespace DataAccess
                     update.ApellidoEmpleado = updatedEmployee.ApellidoEmpleado;
                     update.Correo = updatedEmployee.Correo;
                     update.TipoEmpleado = updatedEmployee.TipoEmpleado;
-                    update.DireccionEmpleado = updatedEmployee.DireccionEmpleado;
                     update.Usuario = updatedEmployee.Usuario;
-                    update.CodigoAcceso = updatedEmployee.CodigoAcceso;
                     update.CodigoPostal = updatedEmployee.CodigoPostal;
                     update.DireccionEmpleado = updatedEmployee.DireccionEmpleado;
                     profileUpdated = context.SaveChanges();
@@ -174,6 +172,28 @@ namespace DataAccess
                 profileUpdated = -1;
             }
             return profileUpdated;
+        }
+
+        public static int UpdateAccessCodeProfile(Empleado updatedEmployee) {
+
+            int accessCodeUpdated = 0;
+
+            try {
+                using (var context = new AromaCafeBDEntities()) {
+                    var update = (from employee in context.Empleado where employee.idEmpleado == updatedEmployee.idEmpleado select employee).Single();
+                    update.CodigoAcceso = updatedEmployee.CodigoAcceso;
+                    accessCodeUpdated = context.SaveChanges();
+                }
+            } catch (SqlException) {
+                accessCodeUpdated = -1;
+            } catch (InvalidOperationException) {
+                accessCodeUpdated = -1;
+            } catch (EntityException) {
+                accessCodeUpdated = -1;
+            } catch (Exception) {
+                accessCodeUpdated = -1;
+            }
+            return accessCodeUpdated;
         }
 
         public static int DisableEmployee(int employeeId)
