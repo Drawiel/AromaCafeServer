@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AromaCafeBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AromaCafeBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cobro">
           <Key>
             <PropertyRef Name="idCobro" />
@@ -26,7 +26,7 @@
           <Property Name="TipoEmpleado" Type="varchar" MaxLength="50" />
           <Property Name="EnTurno" Type="bit" />
           <Property Name="Usuario" Type="varchar" MaxLength="50" />
-          <Property Name="CodigoAcceso" Type="varchar" MaxLength="50" />
+          <Property Name="CodigoAcceso" Type="varchar" MaxLength="256" />
           <Property Name="CodigoPostal" Type="varchar" MaxLength="10" />
           <Property Name="DireccionEmpleado" Type="varchar" MaxLength="255" />
         </EntityType>
@@ -160,8 +160,7 @@
             <End Role="Pedido" EntitySet="Pedido" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AromaCafeBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -187,7 +186,7 @@
           <Property Name="TipoEmpleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EnTurno" Type="Boolean" />
           <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoAcceso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoAcceso" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="CodigoPostal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DireccionEmpleado" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Gasto" Relationship="Self.FK__Gasto__idEmplead__45F365D3" FromRole="Empleado" ToRole="Gasto" />

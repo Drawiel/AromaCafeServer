@@ -176,6 +176,107 @@ namespace DataAccess
             return profileUpdated;
         }
 
+        public static int DisableEmployee(int employeeId)
+        {
+
+            int profileDisabled = 0;
+
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var employee = context.Empleado.FirstOrDefault(e => e.idEmpleado == employeeId);
+
+                    if (employee != null)
+                    {
+                        employee.TipoEmpleado = "Inhabil"; 
+                        context.SaveChanges();
+                        profileDisabled = 1; 
+                    }
+                    else
+                    {
+                        profileDisabled = -2; 
+                    }
+                }
+            }
+            catch (SqlException )
+            {
+                profileDisabled = -1;
+            }
+            catch (InvalidOperationException )
+            {
+                profileDisabled = -1;
+            }
+            catch (EntityException)
+            {
+                profileDisabled = -1;
+            }
+            catch (Exception)
+            {
+                profileDisabled = -1;
+            }
+            return profileDisabled;
+        }
+
+        public static Empleado GetEmployee(int employeeId)
+        {
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var employee = context.Empleado.FirstOrDefault(e => e.idEmpleado == employeeId);
+
+                    if (employee == null)
+                        return null;
+
+                    return employee;
+                }
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            catch (EntityException)
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static List<Empleado> GetAllEmployee()
+        {
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    return context.Empleado.ToList();
+                }
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+            catch (EntityException)
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static List<Empleado> GetWorkingEmployees()
         {
             List<Empleado> employees = new List<Empleado>();

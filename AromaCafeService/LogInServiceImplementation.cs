@@ -4,7 +4,7 @@ using System;
 
 namespace AromaCafeService
 {
-    public class LogInServiceImplementation : ILogInManager
+    public partial class ServiceImplementation : ILogInManager
     {
         public int CheckTurnOpened(string username)
         {
@@ -25,6 +25,7 @@ namespace AromaCafeService
             employeeSerialized.Username = employeeObtained.Usuario;
             employeeSerialized.Password = employeeObtained.CodigoAcceso;
             employeeSerialized.Name = employeeObtained.NombreEmpleado + " " + employeeObtained.ApellidoEmpleado;
+            employeeSerialized.EmployeeType = employeeObtained.TipoEmpleado;
             return employeeSerialized;
         }
     }
