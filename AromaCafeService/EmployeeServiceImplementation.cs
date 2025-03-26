@@ -87,14 +87,13 @@ namespace AromaCafeService {
             return employee;
         }
 
-        public int UpdateAccessCodeProfile(Employee employee) {
+        public string UpdateAccessCodeProfile(Employee employee) {
             var updatedProfile = new Empleado {
-                CodigoAcceso = employee.Password,
                 idEmpleado = employee.EmployeeId
             };
 
-            int profileUpdated = UserManagerDB.UpdateAccessCodeProfile(updatedProfile);
-            return profileUpdated;
+            string passwordUpdated = UserManagerDB.UpdateAccessCodeProfile(updatedProfile);
+            return passwordUpdated;
         }
 
     }

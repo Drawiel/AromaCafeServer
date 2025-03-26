@@ -175,26 +175,28 @@ namespace DataAccess
             return profileUpdated;
         }
 
-        public static int UpdateAccessCodeProfile(Empleado updatedEmployee) {
+        public static string UpdateAccessCodeProfile(Empleado updatedEmployee) {
 
-            int accessCodeUpdated = 0;
+            string newAccessCode = " ";
 
             try {
                 using (var context = new AromaCafeBDEntities()) {
+                    newAccessCode = PasswordEncryptor.GeneratePassword();
                     var update = (from employee in context.Empleado where employee.idEmpleado == updatedEmployee.idEmpleado select employee).Single();
-                    update.CodigoAcceso = updatedEmployee.CodigoAcceso;
-                    accessCodeUpdated = context.SaveChanges();
+                    update.CodigoAcceso = newAccessCode;
+
+                    context.SaveChanges();
                 }
             } catch (SqlException) {
-                accessCodeUpdated = -1;
+                newAccessCode = "Error";
             } catch (InvalidOperationException) {
-                accessCodeUpdated = -1;
+                newAccessCode = "Error";
             } catch (EntityException) {
-                accessCodeUpdated = -1;
+                newAccessCode = "Error";
             } catch (Exception) {
-                accessCodeUpdated = -1;
+                newAccessCode = "Error";
             }
-            return accessCodeUpdated;
+            return newAccessCode;
         }
 
         public static int DisableEmployee(int employeeId)

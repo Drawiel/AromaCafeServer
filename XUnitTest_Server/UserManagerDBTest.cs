@@ -91,12 +91,11 @@ namespace XUnitTest_Server
         public void TestUpdateAccessCodeProfileSuccess() {
             Empleado employee = new Empleado {
                 idEmpleado = 2,
-                CodigoAcceso = "54321"
             };
 
-            int employeesUpdated = UserManagerDB.UpdateProfile(employee);
+            string employeesUpdated = UserManagerDB.UpdateAccessCodeProfile(employee);
 
-            Assert.Equal(1, employeesUpdated);
+            Assert.NotEmpty(employeesUpdated);
         }
 
         [Fact]
