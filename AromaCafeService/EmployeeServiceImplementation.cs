@@ -1,5 +1,6 @@
 ﻿using AromaCafeService.Models;
 using DataAccess;
+using DataAccess.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace AromaCafeService {
             return profileUpdated;
         }
 
-        public int RegisterEmployee(Employee employee) {
+        public string RegisterEmployee(Employee employee) {
+            string passwordGenerated = PasswordEncryptor.GeneratePassword();
             var employeeReceived = new Empleado
             {
                 NombreEmpleado = employee.Name,
@@ -33,11 +35,11 @@ namespace AromaCafeService {
                 Usuario = employee.Username,
                 DireccionEmpleado = employee.EmployeeAddress,
                 CodigoPostal = employee.PostalCode,
-                TipoEmpleado = employee.EmployeeType
+                TipoEmpleado = employee.EmployeeType,
+                CodigoAcceso = passwordGenerated
             };
-            
-            int employeeRegistered = UserManagerDB.RegisterEmployee(employeeReceived);
-            return employeeRegistered;
+            string password = UserManagerDB.RegisterEmployee(employeeReceived);
+            return password;
         }
 
         public int DisableEmployee(Employee employee)
@@ -49,14 +51,18 @@ namespace AromaCafeService {
         public List<Employee> GetAllEmployee()
         {
             List<Empleado> employeesList = UserManagerDB.GetAllEmployee();
-            List<Employee> employees = (List<Employee>)employeesList.Select(e => new Employee {
-                Name = e.NombreEmpleado,
-                LastName = e.ApellidoEmpleado,
-                Email = e.Correo,
-                PostalCode = e.CodigoPostal,
-                EmployeeAddress = e.DireccionEmpleado,
-                EmployeeType = e.TipoEmpleado
-            });
+            List<Employee> employees = employeesList
+                .Select(e => new Employee
+                {
+                    Name = e.NombreEmpleado,
+                    LastName = e.ApellidoEmpleado,
+                    Email = e.Correo,
+                    PostalCode = e.CodigoPostal,
+                    EmployeeAddress = e.DireccionEmpleado,
+                    EmployeeType = e.TipoEmpleado
+                })
+                .ToList();
+
             return employees;
         }
 

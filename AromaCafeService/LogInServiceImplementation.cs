@@ -11,6 +11,11 @@ namespace AromaCafeService
             return UserManagerDB.CheckTurnOpened(username);
         }
 
+        public int CloseTurn(string password)
+        {
+            return UserManagerDB.CloseTurn(password);
+        }
+
         public int OpenTurn(string username)
         {
             int turnOpened = UserManagerDB.OpenTurn(username);
@@ -21,11 +26,14 @@ namespace AromaCafeService
         {
             Empleado employeeObtained = UserManagerDB.Authenticate(username, password);
             Employee employeeSerialized = new Employee();
-            employeeSerialized.EmployeeId = employeeObtained.idEmpleado;
-            employeeSerialized.Username = employeeObtained.Usuario;
-            employeeSerialized.Password = employeeObtained.CodigoAcceso;
-            employeeSerialized.Name = employeeObtained.NombreEmpleado + " " + employeeObtained.ApellidoEmpleado;
-            employeeSerialized.EmployeeType = employeeObtained.TipoEmpleado;
+            if (employeeObtained != null)
+            {
+                employeeSerialized.EmployeeId = employeeObtained.idEmpleado;
+                employeeSerialized.Username = employeeObtained.Usuario;
+                employeeSerialized.Password = employeeObtained.CodigoAcceso;
+                employeeSerialized.Name = employeeObtained.NombreEmpleado + " " + employeeObtained.ApellidoEmpleado;
+                employeeSerialized.EmployeeType = employeeObtained.TipoEmpleado;
+            }
             return employeeSerialized;
         }
     }

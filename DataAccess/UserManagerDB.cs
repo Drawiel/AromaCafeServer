@@ -112,9 +112,9 @@ namespace DataAccess
             return turnOpened;
         }
 
-        public static int RegisterEmployee(Empleado employeeReceived)
+        public static string RegisterEmployee(Empleado employeeReceived)
         {
-            int employeeRegistered = 0;
+            string employeeRegistered = "error";
 
             try
             {
@@ -123,25 +123,26 @@ namespace DataAccess
                     var employee = context.Empleado.Add(employeeReceived);
                     if (employee != null)
                     {
-                        employeeRegistered = 1;
+                        employeeRegistered = employeeReceived.CodigoAcceso;
+                        context.SaveChanges();
                     }
                 }
             }
             catch (SqlException)
             {
-                employeeRegistered = -1;
+                employeeRegistered = "error";
             }
             catch (InvalidOperationException)
             {
-                employeeRegistered = -1;
+                employeeRegistered = "error";
             }
             catch (EntityException)
             {
-                employeeRegistered = -1;
+                employeeRegistered = "error";
             }
             catch (Exception)
             {
-                employeeRegistered = -1;
+                employeeRegistered = "error";
             }
             return employeeRegistered;
         }
@@ -296,6 +297,70 @@ namespace DataAccess
                 employees = null;
             }
             return employees;
+        }
+
+        public static int CloseTurn(string password)
+        {
+            int turnClosed = 0;
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var employee = context.Empleado.FirstOrDefault(e => e.CodigoAcceso == password);
+                    if (employee != null)
+                    {
+                        employee.EnTurno = false;
+                        context.SaveChanges();
+                        turnClosed = 1;
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                turnClosed = -1;
+            }
+            catch (InvalidOperationException)
+            {
+                turnClosed = -1;
+            }
+            catch (EntityException)
+            {
+                turnClosed = -1;
+            }
+            catch (Exception)
+            {
+                turnClosed = -1;
+            }
+            return turnClosed;
+        }
+        
+        public static List<string> GetAllPasswords()
+        {
+            List<string> passwords = new List<string>();
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    passwords = context.Empleado.Select(e => e.CodigoAcceso).ToList();
+                }
+            }
+            catch (SqlException)
+            {
+                passwords = null;
+            }
+            catch (InvalidOperationException)
+            {
+                passwords = null;
+            }
+            catch (EntityException)
+            {
+                passwords = null;
+            }
+            catch (Exception)
+            {
+                passwords = null;
+            }
+            return passwords;
         }
     }
 }
