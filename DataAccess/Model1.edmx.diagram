@@ -7,15 +7,15 @@
       <Diagram DiagramId="429b48c8c0fc4da8b3003641950c5cf6" Name="Diagram1">
         <EntityTypeShape EntityType="AromaCafeBDModel.Cobro" Width="1.5" PointX="6" PointY="7.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AromaCafeBDModel.Empleado" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AromaCafeBDModel.Gasto" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AromaCafeBDModel.Mesa" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AromaCafeBDModel.Pedido" Width="1.5" PointX="6" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AromaCafeBDModel.Producto" Width="1.5" PointX="3.75" PointY="7.5" IsExpanded="true" />
         <AssociationConnector Association="AromaCafeBDModel.FK__Cobro__idMesa__4222D4EF" ManuallyRouted="false" />
-        <AssociationConnector Association="AromaCafeBDModel.FK__Gasto__idEmplead__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="AromaCafeBDModel.FK__Pedido__idEmplea__3E52440B" ManuallyRouted="false" />
         <AssociationConnector Association="AromaCafeBDModel.FK__Pedido__idMesa__3D5E1FD2" ManuallyRouted="false" />
         <AssociationConnector Association="AromaCafeBDModel.FK__Pedido__idProduc__3F466844" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AromaCafeBDModel.Gastos" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AromaCafeBDModel.Ingresos" Width="1.5" PointX="6.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

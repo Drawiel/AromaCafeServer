@@ -37,6 +37,35 @@ namespace DataAccess
             }
         }
 
+        public static Producto GetProductInfo(int productId)
+        {
+            Producto producto = null;
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    producto = context.Producto.FirstOrDefault(p => p.idProducto == productId);
+                }
+            }
+            catch (SqlException)
+            {
+                producto = new Producto();;
+            }
+            catch (InvalidOperationException)
+            {
+                producto = new Producto();;
+            }
+            catch (EntityException)
+            {
+                producto = new Producto();;
+            }
+            catch (Exception)
+            {
+                producto = new Producto();;
+            }
+            return producto;
+        }
+
         public static int AddProduct(Producto newProducto)
         {
             int result = 0;

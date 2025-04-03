@@ -19,9 +19,26 @@ namespace AromaCafeService
                 Description = p.Descripcion,
                 Stock = p.Stock,
                 UnitPrice = p.PrecioUnitario,
-                ProductType = p.TipoProducto
+                ProductType = p.TipoProducto,
+                ProductId = p.idProducto
             }).ToList();
             return allProducts;
+        }
+
+        public Product GetProduct(int idProduct)
+        {
+            Producto producto = ProductManagerDB.GetProductInfo(idProduct);
+            Product product = new Product();
+            if(producto != null)
+            {
+                product.ProductId = idProduct;
+                product.ProductName = producto.NombreProducto;
+                product.ProductType = producto.TipoProducto;
+                product.Description = producto.Descripcion;
+                product.Stock = producto.Stock;
+                product.UnitPrice = producto.PrecioUnitario;
+            }
+            return product;
         }
 
         public int AddProduct(Product newProduct)

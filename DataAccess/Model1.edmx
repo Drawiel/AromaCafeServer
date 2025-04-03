@@ -30,15 +30,21 @@
           <Property Name="CodigoPostal" Type="varchar" MaxLength="10" />
           <Property Name="DireccionEmpleado" Type="varchar" MaxLength="255" />
         </EntityType>
-        <EntityType Name="Gasto">
+        <EntityType Name="Gastos">
           <Key>
-            <PropertyRef Name="idGasto" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="idGasto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Descripcion" Type="text" Nullable="false" />
-          <Property Name="Total" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="idEmpleado" Type="int" />
-          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ingresos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Monto" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Mesa">
           <Key>
@@ -47,6 +53,7 @@
           <Property Name="idMesa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreMesa" Type="varchar" MaxLength="100" />
           <Property Name="EstadoMesa" Type="varchar" MaxLength="50" />
+          <Property Name="NumeroPersonas" Type="int" />
         </EntityType>
         <EntityType Name="Pedido">
           <Key>
@@ -71,6 +78,7 @@
           <Property Name="PrecioUnitario" Type="decimal" Precision="10" Scale="2" />
           <Property Name="Stock" Type="int" />
           <Property Name="TipoProducto" Type="varchar" MaxLength="50" />
+          <Property Name="Categoria" Type="varchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK__Cobro__idMesa__4222D4EF">
           <End Role="Mesa" Type="Self.Mesa" Multiplicity="0..1" />
@@ -81,18 +89,6 @@
             </Principal>
             <Dependent Role="Cobro">
               <PropertyRef Name="idMesa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Gasto__idEmplead__45F365D3">
-          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
-          <End Role="Gasto" Type="Self.Gasto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleado">
-              <PropertyRef Name="idEmpleado" />
-            </Principal>
-            <Dependent Role="Gasto">
-              <PropertyRef Name="idEmpleado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -135,17 +131,14 @@
         <EntityContainer Name="AromaCafeBDModelStoreContainer">
           <EntitySet Name="Cobro" EntityType="Self.Cobro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Gasto" EntityType="Self.Gasto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gastos" EntityType="Self.Gastos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingresos" EntityType="Self.Ingresos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mesa" EntityType="Self.Mesa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pedido" EntityType="Self.Pedido" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Cobro__idMesa__4222D4EF" Association="Self.FK__Cobro__idMesa__4222D4EF">
             <End Role="Mesa" EntitySet="Mesa" />
             <End Role="Cobro" EntitySet="Cobro" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Gasto__idEmplead__45F365D3" Association="Self.FK__Gasto__idEmplead__45F365D3">
-            <End Role="Empleado" EntitySet="Empleado" />
-            <End Role="Gasto" EntitySet="Gasto" />
           </AssociationSet>
           <AssociationSet Name="FK__Pedido__idEmplea__3E52440B" Association="Self.FK__Pedido__idEmplea__3E52440B">
             <End Role="Empleado" EntitySet="Empleado" />
@@ -189,19 +182,7 @@
           <Property Name="CodigoAcceso" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="CodigoPostal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DireccionEmpleado" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Gasto" Relationship="Self.FK__Gasto__idEmplead__45F365D3" FromRole="Empleado" ToRole="Gasto" />
           <NavigationProperty Name="Pedido" Relationship="Self.FK__Pedido__idEmplea__3E52440B" FromRole="Empleado" ToRole="Pedido" />
-        </EntityType>
-        <EntityType Name="Gasto">
-          <Key>
-            <PropertyRef Name="idGasto" />
-          </Key>
-          <Property Name="idGasto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Total" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="idEmpleado" Type="Int32" />
-          <Property Name="Fecha" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Empleado" Relationship="Self.FK__Gasto__idEmplead__45F365D3" FromRole="Gasto" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="Mesa">
           <Key>
@@ -212,6 +193,7 @@
           <Property Name="EstadoMesa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Cobro" Relationship="Self.FK__Cobro__idMesa__4222D4EF" FromRole="Mesa" ToRole="Cobro" />
           <NavigationProperty Name="Pedido" Relationship="Self.FK__Pedido__idMesa__3D5E1FD2" FromRole="Mesa" ToRole="Pedido" />
+          <Property Name="NumeroPersonas" Type="Int32" />
         </EntityType>
         <EntityType Name="Pedido">
           <Key>
@@ -240,6 +222,7 @@
           <Property Name="Stock" Type="Int32" />
           <Property Name="TipoProducto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Pedido" Relationship="Self.FK__Pedido__idProduc__3F466844" FromRole="Producto" ToRole="Pedido" />
+          <Property Name="Categoria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__Cobro__idMesa__4222D4EF">
           <End Role="Mesa" Type="Self.Mesa" Multiplicity="0..1" />
@@ -250,18 +233,6 @@
             </Principal>
             <Dependent Role="Cobro">
               <PropertyRef Name="idMesa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Gasto__idEmplead__45F365D3">
-          <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
-          <End Role="Gasto" Type="Self.Gasto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleado">
-              <PropertyRef Name="idEmpleado" />
-            </Principal>
-            <Dependent Role="Gasto">
-              <PropertyRef Name="idEmpleado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -304,17 +275,12 @@
         <EntityContainer Name="AromaCafeBDEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Cobro" EntityType="Self.Cobro" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" />
-          <EntitySet Name="Gasto" EntityType="Self.Gasto" />
           <EntitySet Name="Mesa" EntityType="Self.Mesa" />
           <EntitySet Name="Pedido" EntityType="Self.Pedido" />
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <AssociationSet Name="FK__Cobro__idMesa__4222D4EF" Association="Self.FK__Cobro__idMesa__4222D4EF">
             <End Role="Mesa" EntitySet="Mesa" />
             <End Role="Cobro" EntitySet="Cobro" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Gasto__idEmplead__45F365D3" Association="Self.FK__Gasto__idEmplead__45F365D3">
-            <End Role="Empleado" EntitySet="Empleado" />
-            <End Role="Gasto" EntitySet="Gasto" />
           </AssociationSet>
           <AssociationSet Name="FK__Pedido__idEmplea__3E52440B" Association="Self.FK__Pedido__idEmplea__3E52440B">
             <End Role="Empleado" EntitySet="Empleado" />
@@ -328,7 +294,25 @@
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Pedido" EntitySet="Pedido" />
           </AssociationSet>
+          <EntitySet Name="Gastos" EntityType="AromaCafeBDModel.Gastos" />
+          <EntitySet Name="Ingresos" EntityType="AromaCafeBDModel.Ingresos" />
         </EntityContainer>
+        <EntityType Name="Gastos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Ingresos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Monto" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -362,20 +346,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Gasto">
-            <EntityTypeMapping TypeName="AromaCafeBDModel.Gasto">
-              <MappingFragment StoreEntitySet="Gasto">
-                <ScalarProperty Name="idGasto" ColumnName="idGasto" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Mesa">
             <EntityTypeMapping TypeName="AromaCafeBDModel.Mesa">
               <MappingFragment StoreEntitySet="Mesa">
+                <ScalarProperty Name="NumeroPersonas" ColumnName="NumeroPersonas" />
                 <ScalarProperty Name="idMesa" ColumnName="idMesa" />
                 <ScalarProperty Name="NombreMesa" ColumnName="NombreMesa" />
                 <ScalarProperty Name="EstadoMesa" ColumnName="EstadoMesa" />
@@ -399,12 +373,31 @@
           <EntitySetMapping Name="Producto">
             <EntityTypeMapping TypeName="AromaCafeBDModel.Producto">
               <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="Categoria" ColumnName="Categoria" />
                 <ScalarProperty Name="idProducto" ColumnName="idProducto" />
                 <ScalarProperty Name="NombreProducto" ColumnName="NombreProducto" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
                 <ScalarProperty Name="Stock" ColumnName="Stock" />
                 <ScalarProperty Name="TipoProducto" ColumnName="TipoProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gastos">
+            <EntityTypeMapping TypeName="AromaCafeBDModel.Gastos">
+              <MappingFragment StoreEntitySet="Gastos">
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingresos">
+            <EntityTypeMapping TypeName="AromaCafeBDModel.Ingresos">
+              <MappingFragment StoreEntitySet="Ingresos">
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
