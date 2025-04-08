@@ -19,5 +19,8 @@ namespace AromaCafeService
 
         [OperationContract]
         int IncreaseStock(int productId, int quantity);
+
+        [OperationContract]
+        Product GetProduct(int idProduct);
     }
 }

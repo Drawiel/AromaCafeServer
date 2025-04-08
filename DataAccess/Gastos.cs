@@ -12,14 +12,10 @@ namespace DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Cobro
+    public partial class Gastos
     {
-        public int idCobro { get; set; }
-        public Nullable<int> idMesa { get; set; }
-        public decimal TotalCobro { get; set; }
-        public string TipoPago { get; set; }
-        public Nullable<System.DateTime> Fecha { get; set; }
-    
-        public virtual Mesa Mesa { get; set; }
+        public int Id { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public decimal Monto { get; set; }
     }
 }
