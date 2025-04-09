@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BalanceManagerDB.cs" />
     <Compile Include="Cobro.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
