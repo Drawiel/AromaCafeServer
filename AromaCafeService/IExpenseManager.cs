@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AromaCafeService.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -10,6 +11,6 @@ namespace AromaCafeService {
     [ServiceContract]
     interface IExpenseManager {
         [OperationContract]
-        int RegisterExpense(float amount, DateTime dateTime);
+        int RegisterExpense(Expense expense);
     }
 }

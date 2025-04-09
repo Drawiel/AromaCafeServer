@@ -8,20 +8,19 @@ using System.Data.SqlClient;
 
 namespace DataAccess {
     public class BalanceManagerDB {
-        public static int RegisterExpense(float amount, DateTime dateTime) {
-
-            int result = 0;
-
+        public static int RegisterExpense(Gastos gasto) {
             try {
                 using (var context = new AromaCafeBDEntities()) {
-                    var gasto = new Gastos {
-                        Fecha = dateTime,
-                        Monto = amount,
+                    var newGasto = new Gastos {
+                        Fecha = gasto.Fecha,
+                        Monto = gasto.Monto,
                     };
 
-                    var gastoNuevo = context.Gastos.Add(gasto);
+                    var gastoNuevo = context.Gastos.Add(newGasto);
+
+                    int result;
                     return result = context.SaveChanges();
-                    
+
                 }
             } catch (SqlException) {
                 return -1;

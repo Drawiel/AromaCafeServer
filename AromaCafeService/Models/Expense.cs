@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AromaCafeService.Models {
-    internal class Expense {
+
+    [DataContract]
+    public class Expense {
 
         [DataMember]
-        public float Amount { get; set; }
+        public decimal Amount { get; set; }
         [DataMember]
         public DateTime DateTime { get; set; }
         [DataMember]
