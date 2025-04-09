@@ -82,12 +82,15 @@
     <Compile Include="IExpenseManager.cs" />
     <Compile Include="ILogInManager.cs" />
     <Compile Include="IProductManager.cs" />
+    <Compile Include="ITableManager.cs" />
     <Compile Include="LogInServiceImplementation.cs" />
+    <Compile Include="Models\Charge.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Expense.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="ProductServiceImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TableServiceImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
