@@ -81,11 +81,13 @@
     <Compile Include="IEmployeeManager.cs" />
     <Compile Include="IExpenseManager.cs" />
     <Compile Include="ILogInManager.cs" />
+    <Compile Include="IOrderManager.cs" />
     <Compile Include="IProductManager.cs" />
     <Compile Include="LogInServiceImplementation.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Expense.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="OrderServiceImplementation.cs" />
     <Compile Include="ProductServiceImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
