@@ -136,6 +136,46 @@ namespace DataAccess
             }
             return result;
         }
+
+        public static int UpdateProduct(Producto updatedProducto)
+        {
+
+            int productUpdated = 0;
+
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var update = (from product in context.Producto where product.idProducto == updatedProducto.idProducto select product).Single();
+                    update.idProducto = updatedProducto.idProducto;
+                    update.NombreProducto = updatedProducto.NombreProducto;
+                    update.TipoProducto = updatedProducto.TipoProducto;
+                    update.Categoria = updatedProducto.Categoria;
+                    update.Descripcion = updatedProducto.Descripcion;
+                    update.Stock = updatedProducto.Stock;
+
+                    productUpdated = context.SaveChanges();
+                }
+            }
+            catch (SqlException)
+            {
+                productUpdated = -1;
+            }
+            catch (InvalidOperationException)
+            {
+                productUpdated = -1;
+            }
+            catch (EntityException)
+            {
+                productUpdated = -1;
+            }
+            catch (Exception)
+            {
+                productUpdated = -1;
+            }
+            return productUpdated;
+        }
+
     }
 }
 

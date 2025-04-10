@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using AromaCafeService.Models;
+using DataAccess;
 
 namespace AromaCafeService
 {
@@ -22,5 +23,8 @@ namespace AromaCafeService
 
         [OperationContract]
         Product GetProduct(int idProduct);
+        [OperationContract]
+        int UpdateProduct(Product product);
+
     }
 }

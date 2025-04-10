@@ -64,5 +64,22 @@ namespace AromaCafeService
                 return -1;
             }
         }
+        public int UpdateProduct(Product product)
+        {
+            var updatedProduct = new Producto
+            {
+                NombreProducto = product.ProductName,
+                Stock=product.Stock,
+                Descripcion = product.Description,
+                idProducto = product.ProductId,
+                TipoProducto = product.ProductType,
+                Categoria = product.ProductType,
+                PrecioUnitario=product.UnitPrice,
+            };
+
+            int productUpdated = ProductManagerDB.UpdateProduct(updatedProduct);
+            return productUpdated;
+        }
+
     }
 }
