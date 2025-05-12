@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using AromaCafeService.Models;
+using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,46 @@ namespace AromaCafeService
         public bool EditOrderQuantity(int idOrder, int quantity)
         {
             return OrderManagerDB.EditOrderQuantity(idOrder, quantity);
+        }
+
+        public List<Order> GetAllCanceledOrders() {
+            List<Pedido> result = OrderManagerDB.GetCancelledOrders();
+            List<Order> orders = new List<Order>();
+
+            foreach (Pedido pedido in result) {
+                Order order = new Order {
+                    IdOrder = pedido.idPedido,
+                    IdTable = pedido.idMesa,
+                    IdEmployee = pedido.idEmpleado,
+                    IdProduct = pedido.idProducto,
+                    Quantity = pedido.Cantidad,
+                    OrderType = pedido.TipoPedido,
+                    StatusOrder = pedido.EstadoPedido,
+                    TotalOrder = pedido.SubtotalPedido
+                };
+                orders.Add(order);
+            }
+            return orders;
+        }
+
+        public List<Order> GetAllDeliveredOrders() {
+            List<Pedido> result = OrderManagerDB.GetDeliveredOrders();
+            List<Order> orders = new List<Order>();
+
+            foreach (Pedido pedido in result) {
+                Order order = new Order {
+                    IdOrder = pedido.idPedido,
+                    IdTable = pedido.idMesa,
+                    IdEmployee = pedido.idEmpleado,
+                    IdProduct = pedido.idProducto,
+                    Quantity = pedido.Cantidad,
+                    OrderType = pedido.TipoPedido,
+                    StatusOrder = pedido.EstadoPedido,
+                    TotalOrder = pedido.SubtotalPedido
+                };
+                orders.Add(order);
+            }
+            return orders;
         }
 
         public bool MarkOrderAsDelivered(int idOrder)

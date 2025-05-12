@@ -15,9 +15,9 @@ namespace DataAccess
     public partial class Pedido
     {
         public int idPedido { get; set; }
-        public Nullable<int> idMesa { get; set; }
-        public Nullable<int> idEmpleado { get; set; }
-        public Nullable<int> idProducto { get; set; }
+        public int idMesa { get; set; }
+        public int idEmpleado { get; set; }
+        public int idProducto { get; set; }
         public int Cantidad { get; set; }
         public string TipoPedido { get; set; }
         public string EstadoPedido { get; set; }

@@ -79,5 +79,41 @@ namespace DataAccess
             }
             return marked;
         }
+
+        public static List<Pedido> GetDeliveredOrders() {
+            List<Pedido> orders = new List<Pedido>();
+            try {
+                using (var context = new AromaCafeBDEntities()) {
+                    orders = context.Pedido.Where(p => p.EstadoPedido == "Entregado").ToList();
+                }
+            } catch (SqlException) {
+                orders = null;
+            } catch (InvalidOperationException) {
+                orders = null;
+            } catch (EntityException) {
+                orders = null;
+            } catch (Exception) {
+                orders = null;
+            }
+            return orders;
+        }
+
+        public static List<Pedido> GetCancelledOrders() {
+            List<Pedido> orders = new List<Pedido>();
+            try {
+                using (var context = new AromaCafeBDEntities()) {
+                    orders = context.Pedido.Where(p => p.EstadoPedido == "Cancelado").ToList();
+                }
+            } catch (SqlException) {
+                orders = null;
+            } catch (InvalidOperationException) {
+                orders = null;
+            } catch (EntityException) {
+                orders = null;
+            } catch (Exception) {
+                orders = null;
+            }
+            return orders;
+        }
     }
 }
