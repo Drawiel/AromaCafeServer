@@ -3,6 +3,7 @@ using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,25 @@ namespace AromaCafeService {
                 Fecha = charge.Date
             };
             return TableManagerDB.ChargeBill(newCobro);
+        }
+        public int NewTable(TableCustomer table)
+        {
+            string tableName = table.TableName;
+            int numberPeople = table.NumberPeople;
+
+            return TableManagerDB.NewTable(tableName, numberPeople);
+        }
+        public List<TableCustomer> GetActiveAndClosedTables()
+        {
+            var mesas = TableManagerDB.GetActiveAndClosedTablesList();
+
+            return mesas.Select(m => new TableCustomer
+            {
+                TableId = m.idMesa,
+                TableName = m.NombreMesa,
+                NumberPeople = (int)m.NumeroPersonas,
+                TableStatus = m.EstadoMesa
+            }).ToList();
         }
     }
 }
