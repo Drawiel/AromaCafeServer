@@ -79,5 +79,10 @@ namespace DataAccess
             }
             return marked;
         }
+
+        public static int RegisterOrder(List<global::AromaCafeService.Models.ProductOrder> productsOrdered, int idTable, string orderType)
+        {
+            
+        }
     }
 }

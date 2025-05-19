@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AromaCafeService.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -14,5 +15,7 @@ namespace AromaCafeService
         bool MarkOrderAsDelivered(int idOrder);
         [OperationContract]
         bool EditOrderQuantity(int idOrder, int quantity);
+        [OperationContract]
+        int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType);
     }
 }

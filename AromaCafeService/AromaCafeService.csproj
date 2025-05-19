@@ -89,6 +89,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Expense.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductOrder.cs" />
     <Compile Include="OrderServiceImplementation.cs" />
     <Compile Include="ProductServiceImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

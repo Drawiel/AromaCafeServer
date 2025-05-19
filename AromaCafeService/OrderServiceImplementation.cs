@@ -1,4 +1,5 @@
-﻿using DataAccess;
+﻿using AromaCafeService.Models;
+using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace AromaCafeService
         public bool MarkOrderAsDelivered(int idOrder)
         {
             return OrderManagerDB.MarkOrderAsDelivered(idOrder);
+        }
+
+        public int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType)
+        {
+            return OrderManagerDB.RegisterOrder(productsOrdered, idTable, orderType);
         }
     }
 }
