@@ -34,6 +34,10 @@ namespace AromaCafeService
                 employeeSerialized.Name = employeeObtained.NombreEmpleado + " " + employeeObtained.ApellidoEmpleado;
                 employeeSerialized.EmployeeType = employeeObtained.TipoEmpleado;
             }
+            else
+            {
+                employeeSerialized.EmployeeId = -2;
+            }
             return employeeSerialized;
         }
     }
