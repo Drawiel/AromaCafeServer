@@ -10,79 +10,142 @@ namespace DataAccess
 {
     public class OrderManagerDB
     {
-        public static bool EditOrderQuantity(int idOrder, int quantity)
+        public static int EditOrderQuantity(int tableId, string productOrderName, int quantity)
         {
-            bool edited = false;
+            int edited = 0;
             try
             {
                 using (var context = new AromaCafeBDEntities())
                 {
-                    var order = context.Pedido.FirstOrDefault(p => p.idPedido == idOrder);
-                    if (order != null)
-                    {
-                        order.Cantidad = quantity;
-                        context.SaveChanges();
-                        edited = true;
-                    }
+                    var producto = context.Producto
+                        .FirstOrDefault(p => p.NombreProducto == productOrderName);
+
+                    if (producto == null)
+                        return 0;
+
+                    int prodId = producto.idProducto;
+
+                    var order = context.Pedido
+                        .FirstOrDefault(o =>
+                            o.idMesa == tableId &&
+                            o.idProducto == prodId);
+
+                    if (order == null)
+                        return 0;
+
+                    order.Cantidad = quantity;
+                    context.SaveChanges();
+                    edited = 1;
                 }
             }
             catch (SqlException)
             {
-                edited = false;
+                edited = 2;
             }
             catch (InvalidOperationException)
             {
-                edited = false;
+                edited = 2;
             }
             catch (EntityException)
             {
-                edited = false;
+                edited = 2;
             }
             catch (Exception)
             {
-                edited = false;
+                edited = 2;
             }
             return edited;
         }
 
-        public static bool MarkOrderAsDelivered(int idOrder)
+        public static List<OrderProductDTO> GetOrdersByTable(int idTable)
         {
-            bool marked = false;
+            var result = new List<OrderProductDTO>();
             try
             {
                 using (var context = new AromaCafeBDEntities())
                 {
-                    var order = context.Pedido.FirstOrDefault(p => p.idPedido == idOrder);
-                    if (order != null)
-                    {
-                        order.EstadoPedido = "Entregado";
-                        context.SaveChanges();
-                        marked = true;
-                    }
+                    result = (from pedido in context.Pedido
+                              where pedido.idMesa == idTable
+                              join producto in context.Producto
+                              on pedido.idProducto equals producto.idProducto
+                              select new OrderProductDTO
+                              {
+                                  NombreProducto = producto.NombreProducto,
+                                  Cantidad = pedido.Cantidad,
+                                  EstadoPedido = pedido.EstadoPedido
+                              }).ToList();
                 }
             }
             catch (SqlException)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
             }
             catch (InvalidOperationException)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
             }
             catch (EntityException)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
             }
             catch (Exception)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
+            }
+
+            return result;
+        }
+
+        public static int MarkOrderAsDelivered(int tableId, string productOrderName, string status)
+        {
+            int marked = 0;
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var producto = context.Producto
+                        .FirstOrDefault(p => p.NombreProducto == productOrderName);
+
+                    if (producto == null)
+                        return 0;
+
+                    int prodId = producto.idProducto;
+
+                    var order = context.Pedido
+                        .FirstOrDefault(o =>
+                            o.idMesa == tableId &&
+                            o.idProducto == prodId);
+
+                    if (order == null)
+                        return 0;
+
+                    order.EstadoPedido = status;
+                    context.SaveChanges();
+                    marked = 1;
+                }
+            }
+            catch (SqlException)
+            {
+                marked = 2;
+            }
+            catch (InvalidOperationException)
+            {
+                marked = 2;
+            }
+            catch (EntityException)
+            {
+                marked = 2;
+            }
+            catch (Exception)
+            {
+                marked = 2;
             }
             return marked;
         }
 
-        public static int RegisterOrder(List<global::AromaCafeService.Models.ProductOrder> productsOrdered, int idTable, string orderType)
+        /*public static int RegisterOrder(List<global::AromaCafeService.Models.ProductOrder> productsOrdered, int idTable, string orderType)
         {
             
-        }
+        }*/
     }
 }

@@ -10,12 +10,18 @@ namespace AromaCafeService.Models
     [DataContract]
     public class ProductOrder
     {
-        private int productId;
+        private string productName;
         private int quantity;
+        private string orderState;
+        private decimal price;
 
         [DataMember]
-        public int ProductId { get { return productId; } set { productId = value; } }
+        public string ProductName { get { return productName; } set { productName = value; } }
         [DataMember]
         public int Quantity { get { return quantity; } set { quantity = value; } }
+        [DataMember]
+        public string OrderState { get { return orderState; } set { orderState = value; } }
+        [DataMember]
+        public decimal Price { get { return price; } set { price = value; } }
     }
 }

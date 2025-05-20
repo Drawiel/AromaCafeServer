@@ -10,19 +10,38 @@ namespace AromaCafeService
 {
     public partial class ServiceImplementation : IOrderManager
     {
-        public bool EditOrderQuantity(int idOrder, int quantity)
+        public int EditOrderQuantity(int tableId, string productOrderName,int quantity)
         {
-            return OrderManagerDB.EditOrderQuantity(idOrder, quantity);
+            return OrderManagerDB.EditOrderQuantity(tableId, productOrderName, quantity);
         }
 
-        public bool MarkOrderAsDelivered(int idOrder)
+        public List<ProductOrder> GetOrdersByTable(int idTable)
         {
-            return OrderManagerDB.MarkOrderAsDelivered(idOrder);
+            List<OrderProductDTO> products = OrderManagerDB.GetOrdersByTable(idTable);
+            List<ProductOrder> orders = products.Select(p => new ProductOrder
+            {
+                ProductName = p.NombreProducto,
+                Quantity = p.Cantidad,
+                OrderState = p.EstadoPedido
+
+            }).ToList();
+            return orders;
+        }
+
+        public int MarkOrderAsDelivered(int tableId, string productOrderName)
+        {
+            return OrderManagerDB.MarkOrderAsDelivered(tableId, productOrderName, "Entregado");
+        }
+
+        public int MarkOrderAsRequested(int tableId, string productOrderName)
+        {
+            return OrderManagerDB.MarkOrderAsDelivered(tableId, productOrderName, "Solicitado");
         }
 
         public int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType)
         {
-            return OrderManagerDB.RegisterOrder(productsOrdered, idTable, orderType);
+            //return OrderManagerDB.RegisterOrder(productsOrdered, idTable, orderType);
+            return 0;
         }
     }
 }

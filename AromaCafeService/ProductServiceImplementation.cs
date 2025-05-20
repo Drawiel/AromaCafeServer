@@ -20,7 +20,8 @@ namespace AromaCafeService
                 Stock = p.Stock,
                 UnitPrice = p.PrecioUnitario,
                 ProductType = p.TipoProducto,
-                ProductId = p.idProducto
+                ProductId = p.idProducto,
+                Category = p.Categoria
             }).ToList();
             return allProducts;
         }
@@ -73,13 +74,12 @@ namespace AromaCafeService
                 Descripcion = product.Description,
                 idProducto = product.ProductId,
                 TipoProducto = product.ProductType,
-                Categoria = product.ProductType,
+                Categoria = product.Category,
                 PrecioUnitario=product.UnitPrice,
             };
 
             int productUpdated = ProductManagerDB.UpdateProduct(updatedProduct);
             return productUpdated;
         }
-
     }
 }

@@ -17,6 +17,7 @@ namespace AromaCafeService.Models
         private decimal? unitPrice;
         private int? stock;
         private string productType;
+        private string category;
 
         [DataMember]
         public int ProductId { get { return productId; } set { productId = value; } }
@@ -35,5 +36,7 @@ namespace AromaCafeService.Models
 
         [DataMember]
         public string ProductType { get { return productType; } set { productType = value; } }
+        [DataMember]
+        public string Category { get { return category; } set { category = value; } }
     }
 }
