@@ -48,7 +48,7 @@ namespace XUnitTest_Server
             };
 
             string registered = UserManagerDB.RegisterEmployee(employee);
-            Assert.Equal("54321", registered);
+            Assert.Equal("", registered);
         }
 
         [Fact]

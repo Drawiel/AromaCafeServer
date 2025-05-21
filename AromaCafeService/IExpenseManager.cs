@@ -1,4 +1,5 @@
 ﻿using AromaCafeService.Models;
+using DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace AromaCafeService {
     interface IExpenseManager {
         [OperationContract]
         int RegisterExpense(Expense expense);
+        [OperationContract]
+        List<Expense> GetAllExpensesByDay(DateTime date);
     }
 }
