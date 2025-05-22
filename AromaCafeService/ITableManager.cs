@@ -18,6 +18,14 @@ namespace AromaCafeService {
         int NewTable(TableCustomer table);
         [OperationContract]
         List<TableCustomer> GetActiveAndClosedTables();
+        [OperationContract]
+        List<SalesData> GetSalesReportByRange(DateTime fromDate, DateTime toDate);
+        [OperationContract]
+        List<SaleByWaiterData> GetSalesReportByWaiterRange(DateTime fromDate, DateTime toDate);
+        [OperationContract]
+        List<FinancialMovement> GetFinancialReportByRange(DateTime fromDate, DateTime toDate);
+
+
     }
 
 }

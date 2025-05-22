@@ -64,6 +64,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AromaCafeService\AromaCafeService.csproj">
+      <Project>{78efbad6-40c7-4e10-8db0-5d289f39d6bc}</Project>
+      <Name>AromaCafeService</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
