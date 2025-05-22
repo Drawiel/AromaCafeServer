@@ -40,8 +40,15 @@ namespace AromaCafeService
 
         public int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType)
         {
-            //return OrderManagerDB.RegisterOrder(productsOrdered, idTable, orderType);
-            return 0;
+            List<OrderProductDTO> products = productsOrdered.Select(p => new OrderProductDTO
+            {
+                NombreProducto = p.ProductName,
+                Cantidad = p.Quantity,
+            }).ToList();
+
+            int result = OrderManagerDB.RegisterNewOrder(products, idTable);
+
+            return result;
         }
     }
 }

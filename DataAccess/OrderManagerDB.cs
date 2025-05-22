@@ -143,9 +143,54 @@ namespace DataAccess
             return marked;
         }
 
-        /*public static int RegisterOrder(List<global::AromaCafeService.Models.ProductOrder> productsOrdered, int idTable, string orderType)
+        public static int RegisterNewOrder(List<OrderProductDTO> productsOrdered, int idTable)
         {
-            
-        }*/
+            Pedido pedido = new Pedido();
+            int result = 0;
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    foreach (var product in productsOrdered)
+                    {
+                        var producto = ProductManagerDB.GetProductInfoByName(product.NombreProducto);
+                        var employees = UserManagerDB.GetWorkingEmployees();
+                        int employeeId = 1;
+                        if(employees != null)
+                        {
+                            employeeId = employees[0].idEmpleado;
+                        }
+
+                        pedido.Cantidad = product.Cantidad;
+                        pedido.idMesa = idTable;
+                        pedido.idProducto = producto.idProducto;
+                        pedido.SubtotalPedido = (decimal)(product.Cantidad * producto.PrecioUnitario);
+                        pedido.TipoPedido = "Local";
+                        pedido.EstadoPedido = "Ordenado";
+                        pedido.idEmpleado = (int?)employeeId;
+                    }
+                    context.Pedido.Add(pedido);
+                    context.SaveChanges();
+                    result = 1;
+                }
+            }
+            catch (SqlException)
+            {
+                result = -1;
+            }
+            catch (InvalidOperationException)
+            {
+                result = -1;
+            }
+            catch (EntityException)
+            {
+                result = -1;
+            }
+            catch (Exception)
+            {
+                result = -1;
+            }
+            return result;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace DataAccess
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Empleado
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +19,7 @@ namespace DataAccess
         {
             this.Pedido = new HashSet<Pedido>();
         }
-    
+
         public int idEmpleado { get; set; }
         public string NombreEmpleado { get; set; }
         public string ApellidoEmpleado { get; set; }
@@ -30,7 +30,7 @@ namespace DataAccess
         public string CodigoAcceso { get; set; }
         public string CodigoPostal { get; set; }
         public string DireccionEmpleado { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pedido> Pedido { get; set; }
     }
