@@ -12,15 +12,15 @@ namespace AromaCafeService
     interface IOrderManager
     {
         [OperationContract]
-        bool MarkOrderAsDelivered(int idOrder);
-
+        int MarkOrderAsDelivered(int tableId, string productOrderName);
         [OperationContract]
-        bool EditOrderQuantity(int idOrder, int quantity);
-
+        int MarkOrderAsRequested(int tableId, string productOrderName);
         [OperationContract]
-        List<Order> GetAllDeliveredOrders();
-
+        int EditOrderQuantity(int tableId, string productOrderName, int quantity);
         [OperationContract]
-        List<Order> GetAllCanceledOrders();
+        int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType);
+        [OperationContract]
+        List<ProductOrder> GetOrdersByTable(int idTable);
+
     }
 }

@@ -20,7 +20,11 @@ namespace DataAccess
                 using (var context = new AromaCafeBDEntities())
                 {
                     employee = context.Empleado.FirstOrDefault(a => a.Usuario == username && a.CodigoAcceso == password);
-                    if (employee.idEmpleado > 0)
+                    if(employee == null)
+                    {
+                        employee = null;
+                    }
+                    else if (employee.idEmpleado > 0)
                     {
                         employee.EnTurno = true;
                         context.SaveChanges();

@@ -10,54 +10,45 @@ namespace AromaCafeService
 {
     public partial class ServiceImplementation : IOrderManager
     {
-        public bool EditOrderQuantity(int idOrder, int quantity)
+        public int EditOrderQuantity(int tableId, string productOrderName,int quantity)
         {
-            return OrderManagerDB.EditOrderQuantity(idOrder, quantity);
+            return OrderManagerDB.EditOrderQuantity(tableId, productOrderName, quantity);
         }
 
-        public List<Order> GetAllCanceledOrders() {
-            List<Pedido> result = OrderManagerDB.GetCancelledOrders();
-            List<Order> orders = new List<Order>();
+        public List<ProductOrder> GetOrdersByTable(int idTable)
+        {
+            List<OrderProductDTO> products = OrderManagerDB.GetOrdersByTable(idTable);
+            List<ProductOrder> orders = products.Select(p => new ProductOrder
+            {
+                ProductName = p.NombreProducto,
+                Quantity = p.Cantidad,
+                OrderState = p.EstadoPedido
 
-            foreach (Pedido pedido in result) {
-                Order order = new Order {
-                    IdOrder = pedido.idPedido,
-                    IdTable = pedido.idMesa,
-                    IdEmployee = pedido.idEmpleado,
-                    IdProduct = pedido.idProducto,
-                    Quantity = pedido.Cantidad,
-                    OrderType = pedido.TipoPedido,
-                    StatusOrder = pedido.EstadoPedido,
-                    TotalOrder = pedido.SubtotalPedido
-                };
-                orders.Add(order);
-            }
+            }).ToList();
             return orders;
         }
 
-        public List<Order> GetAllDeliveredOrders() {
-            List<Pedido> result = OrderManagerDB.GetDeliveredOrders();
-            List<Order> orders = new List<Order>();
-
-            foreach (Pedido pedido in result) {
-                Order order = new Order {
-                    IdOrder = pedido.idPedido,
-                    IdTable = pedido.idMesa,
-                    IdEmployee = pedido.idEmpleado,
-                    IdProduct = pedido.idProducto,
-                    Quantity = pedido.Cantidad,
-                    OrderType = pedido.TipoPedido,
-                    StatusOrder = pedido.EstadoPedido,
-                    TotalOrder = pedido.SubtotalPedido
-                };
-                orders.Add(order);
-            }
-            return orders;
+        public int MarkOrderAsDelivered(int tableId, string productOrderName)
+        {
+            return OrderManagerDB.MarkOrderAsDelivered(tableId, productOrderName, "Entregado");
         }
 
-        public bool MarkOrderAsDelivered(int idOrder)
+        public int MarkOrderAsRequested(int tableId, string productOrderName)
         {
-            return OrderManagerDB.MarkOrderAsDelivered(idOrder);
+            return OrderManagerDB.MarkOrderAsDelivered(tableId, productOrderName, "Solicitado");
+        }
+
+        public int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType)
+        {
+            List<OrderProductDTO> products = productsOrdered.Select(p => new OrderProductDTO
+            {
+                NombreProducto = p.ProductName,
+                Cantidad = p.Quantity,
+            }).ToList();
+
+            int result = OrderManagerDB.RegisterNewOrder(products, idTable);
+
+            return result;
         }
     }
 }

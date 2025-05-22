@@ -10,110 +10,187 @@ namespace DataAccess
 {
     public class OrderManagerDB
     {
-        public static bool EditOrderQuantity(int idOrder, int quantity)
+        public static int EditOrderQuantity(int tableId, string productOrderName, int quantity)
         {
-            bool edited = false;
+            int edited = 0;
             try
             {
                 using (var context = new AromaCafeBDEntities())
                 {
-                    var order = context.Pedido.FirstOrDefault(p => p.idPedido == idOrder);
-                    if (order != null)
-                    {
-                        order.Cantidad = quantity;
-                        context.SaveChanges();
-                        edited = true;
-                    }
+                    var producto = context.Producto
+                        .FirstOrDefault(p => p.NombreProducto == productOrderName);
+
+                    if (producto == null)
+                        return 0;
+
+                    int prodId = producto.idProducto;
+
+                    var order = context.Pedido
+                        .FirstOrDefault(o =>
+                            o.idMesa == tableId &&
+                            o.idProducto == prodId);
+
+                    if (order == null)
+                        return 0;
+
+                    order.Cantidad = quantity;
+                    context.SaveChanges();
+                    edited = 1;
                 }
             }
             catch (SqlException)
             {
-                edited = false;
+                edited = 2;
             }
             catch (InvalidOperationException)
             {
-                edited = false;
+                edited = 2;
             }
             catch (EntityException)
             {
-                edited = false;
+                edited = 2;
             }
             catch (Exception)
             {
-                edited = false;
+                edited = 2;
             }
             return edited;
         }
 
-        public static bool MarkOrderAsDelivered(int idOrder)
+        public static List<OrderProductDTO> GetOrdersByTable(int idTable)
         {
-            bool marked = false;
+            var result = new List<OrderProductDTO>();
             try
             {
                 using (var context = new AromaCafeBDEntities())
                 {
-                    var order = context.Pedido.FirstOrDefault(p => p.idPedido == idOrder);
-                    if (order != null)
-                    {
-                        order.EstadoPedido = "Entregado";
-                        context.SaveChanges();
-                        marked = true;
-                    }
+                    result = (from pedido in context.Pedido
+                              where pedido.idMesa == idTable
+                              join producto in context.Producto
+                              on pedido.idProducto equals producto.idProducto
+                              select new OrderProductDTO
+                              {
+                                  NombreProducto = producto.NombreProducto,
+                                  Cantidad = pedido.Cantidad,
+                                  EstadoPedido = pedido.EstadoPedido
+                              }).ToList();
                 }
             }
             catch (SqlException)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
             }
             catch (InvalidOperationException)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
             }
             catch (EntityException)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
             }
             catch (Exception)
             {
-                marked = false;
+                result = new List<OrderProductDTO>();
+            }
+
+            return result;
+        }
+
+        public static int MarkOrderAsDelivered(int tableId, string productOrderName, string status)
+        {
+            int marked = 0;
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var producto = context.Producto
+                        .FirstOrDefault(p => p.NombreProducto == productOrderName);
+
+                    if (producto == null)
+                        return 0;
+
+                    int prodId = producto.idProducto;
+
+                    var order = context.Pedido
+                        .FirstOrDefault(o =>
+                            o.idMesa == tableId &&
+                            o.idProducto == prodId);
+
+                    if (order == null)
+                        return 0;
+
+                    order.EstadoPedido = status;
+                    context.SaveChanges();
+                    marked = 1;
+                }
+            }
+            catch (SqlException)
+            {
+                marked = 2;
+            }
+            catch (InvalidOperationException)
+            {
+                marked = 2;
+            }
+            catch (EntityException)
+            {
+                marked = 2;
+            }
+            catch (Exception)
+            {
+                marked = 2;
             }
             return marked;
         }
 
-        public static List<Pedido> GetDeliveredOrders() {
-            List<Pedido> orders = new List<Pedido>();
-            try {
-                using (var context = new AromaCafeBDEntities()) {
-                    orders = context.Pedido.Where(p => p.EstadoPedido == "Entregado").ToList();
-                }
-            } catch (SqlException) {
-                orders = null;
-            } catch (InvalidOperationException) {
-                orders = null;
-            } catch (EntityException) {
-                orders = null;
-            } catch (Exception) {
-                orders = null;
-            }
-            return orders;
-        }
+        public static int RegisterNewOrder(List<OrderProductDTO> productsOrdered, int idTable)
+        {
+            Pedido pedido = new Pedido();
+            int result = 0;
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    foreach (var product in productsOrdered)
+                    {
+                        var producto = ProductManagerDB.GetProductInfoByName(product.NombreProducto);
+                        var employees = UserManagerDB.GetWorkingEmployees();
+                        int employeeId = 1;
+                        if(employees != null)
+                        {
+                            employeeId = employees[0].idEmpleado;
+                        }
 
-        public static List<Pedido> GetCancelledOrders() {
-            List<Pedido> orders = new List<Pedido>();
-            try {
-                using (var context = new AromaCafeBDEntities()) {
-                    orders = context.Pedido.Where(p => p.EstadoPedido == "Cancelado").ToList();
+                        pedido.Cantidad = product.Cantidad;
+                        pedido.idMesa = idTable;
+                        pedido.idProducto = producto.idProducto;
+                        pedido.SubtotalPedido = (decimal)(product.Cantidad * producto.PrecioUnitario);
+                        pedido.TipoPedido = "Local";
+                        pedido.EstadoPedido = "Ordenado";
+                        pedido.idEmpleado = (int?)employeeId;
+                    }
+                    context.Pedido.Add(pedido);
+                    context.SaveChanges();
+                    result = 1;
                 }
-            } catch (SqlException) {
-                orders = null;
-            } catch (InvalidOperationException) {
-                orders = null;
-            } catch (EntityException) {
-                orders = null;
-            } catch (Exception) {
-                orders = null;
             }
-            return orders;
+            catch (SqlException)
+            {
+                result = -1;
+            }
+            catch (InvalidOperationException)
+            {
+                result = -1;
+            }
+            catch (EntityException)
+            {
+                result = -1;
+            }
+            catch (Exception)
+            {
+                result = -1;
+            }
+            return result;
         }
     }
 }
