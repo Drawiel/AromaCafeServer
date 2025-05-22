@@ -105,5 +105,42 @@ namespace DataAccess {
                 return -1;
             }
         }
+
+        public static int CloseTable(int tableId)
+        {
+            int closed = 0;
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    var table = context.Mesa.FirstOrDefault(m => m.idMesa == tableId);
+
+                    if (table != null)
+                    {
+                        table.EstadoMesa = "Cerrada";
+                        closed = 1;
+                        context.SaveChanges();
+                    }
+
+                }
+            }
+            catch (SqlException)
+            {
+                closed = 2;
+            }
+            catch (InvalidOperationException)
+            {
+                closed = 2;
+            }
+            catch (EntityException)
+            {
+                closed = 2;
+            }
+            catch (Exception)
+            {
+                closed = 2;
+            }
+            return closed;
+        }
     }
 }

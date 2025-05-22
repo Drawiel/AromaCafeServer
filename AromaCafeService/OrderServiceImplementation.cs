@@ -22,7 +22,8 @@ namespace AromaCafeService
             {
                 ProductName = p.NombreProducto,
                 Quantity = p.Cantidad,
-                OrderState = p.EstadoPedido
+                OrderState = p.EstadoPedido,
+                Price = p.Precio
 
             }).ToList();
             return orders;

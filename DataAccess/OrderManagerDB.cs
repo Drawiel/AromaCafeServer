@@ -72,7 +72,8 @@ namespace DataAccess
                               {
                                   NombreProducto = producto.NombreProducto,
                                   Cantidad = pedido.Cantidad,
-                                  EstadoPedido = pedido.EstadoPedido
+                                  EstadoPedido = pedido.EstadoPedido,
+                                  Precio = (decimal)producto.PrecioUnitario
                               }).ToList();
                 }
             }

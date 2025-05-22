@@ -17,6 +17,8 @@ namespace AromaCafeService {
         [OperationContract]
         int NewTable(TableCustomer table);
         [OperationContract]
+        int CloseTable(int tableId);
+        [OperationContract]
         List<TableCustomer> GetActiveAndClosedTables();
     }
 

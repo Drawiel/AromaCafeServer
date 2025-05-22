@@ -37,5 +37,11 @@ namespace AromaCafeService {
                 TableStatus = m.EstadoMesa
             }).ToList();
         }
+
+        public int CloseTable(int tableId)
+        {
+            int closed = TableManagerDB.CloseTable(tableId);
+            return closed;
+        }
     }
 }
