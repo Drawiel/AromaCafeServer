@@ -91,6 +91,9 @@ namespace DataAccess {
 
                     var gastoNuevo = context.Cobro.Add(newCobro);
 
+                    var mesa = context.Mesa.FirstOrDefault(m => m.idMesa == cobro.idMesa);
+                    mesa.EstadoMesa = "Cerrado";
+
                     int result;
                     return result = context.SaveChanges();
 

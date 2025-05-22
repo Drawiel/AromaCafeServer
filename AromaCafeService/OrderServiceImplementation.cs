@@ -22,7 +22,8 @@ namespace AromaCafeService
             {
                 ProductName = p.NombreProducto,
                 Quantity = p.Cantidad,
-                OrderState = p.EstadoPedido
+                OrderState = p.EstadoPedido,
+                Price = p.PrecioUnitario
 
             }).ToList();
             return orders;
@@ -38,6 +39,11 @@ namespace AromaCafeService
             return OrderManagerDB.MarkOrderAsDelivered(tableId, productOrderName, "Solicitado");
         }
 
+        public int MarkOrderAsCancelled(int tableId, string productOrderName)
+        {
+            return OrderManagerDB.MarkOrderAsDelivered(tableId, productOrderName, "Cancelado");
+        }
+
         public int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType)
         {
             List<OrderProductDTO> products = productsOrdered.Select(p => new OrderProductDTO
@@ -50,5 +56,52 @@ namespace AromaCafeService
 
             return result;
         }
+
+        public List<Order> GetAllCanceledOrders()
+        {
+            List<Pedido> result = OrderManagerDB.GetCancelledOrders();
+            List<Order> orders = new List<Order>();
+
+            foreach (Pedido pedido in result)
+            {
+                Order order = new Order
+                {
+                    IdOrder = pedido.idPedido,
+                    IdTable = (int)pedido.idMesa,
+                    IdEmployee = (int)pedido.idEmpleado,
+                    IdProduct = (int)pedido.idProducto,
+                    Quantity = pedido.Cantidad,
+                    OrderType = pedido.TipoPedido,
+                    StatusOrder = pedido.EstadoPedido,
+                    TotalOrder = pedido.SubtotalPedido
+                };
+                orders.Add(order);
+            }
+            return orders;
+        }
+
+        public List<Order> GetAllDeliveredOrders()
+        {
+            List<Pedido> result = OrderManagerDB.GetDeliveredOrders();
+            List<Order> orders = new List<Order>();
+
+            foreach (Pedido pedido in result)
+            {
+                Order order = new Order
+                {
+                    IdOrder = pedido.idPedido,
+                    IdTable = (int)pedido.idMesa,
+                    IdEmployee = (int)pedido.idEmpleado,
+                    IdProduct = (int)pedido.idProducto,
+                    Quantity = pedido.Cantidad,
+                    OrderType = pedido.TipoPedido,
+                    StatusOrder = pedido.EstadoPedido,
+                    TotalOrder = pedido.SubtotalPedido
+                };
+                orders.Add(order);
+            }
+            return orders;
+        }
+
     }
 }

@@ -16,11 +16,18 @@ namespace AromaCafeService
         [OperationContract]
         int MarkOrderAsRequested(int tableId, string productOrderName);
         [OperationContract]
+        int MarkOrderAsCancelled(int tableId, string productOrderName);
+        [OperationContract]
         int EditOrderQuantity(int tableId, string productOrderName, int quantity);
         [OperationContract]
         int RegisterOrder(List<ProductOrder> productsOrdered, int idTable, string orderType);
         [OperationContract]
         List<ProductOrder> GetOrdersByTable(int idTable);
+        [OperationContract]
+        List<Order> GetAllDeliveredOrders();
+
+        [OperationContract]
+        List<Order> GetAllCanceledOrders();
 
     }
 }

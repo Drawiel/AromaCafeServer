@@ -72,7 +72,8 @@ namespace DataAccess
                               {
                                   NombreProducto = producto.NombreProducto,
                                   Cantidad = pedido.Cantidad,
-                                  EstadoPedido = pedido.EstadoPedido
+                                  EstadoPedido = pedido.EstadoPedido,
+                                  PrecioUnitario = (decimal)producto.PrecioUnitario
                               }).ToList();
                 }
             }
@@ -166,7 +167,7 @@ namespace DataAccess
                         pedido.idProducto = producto.idProducto;
                         pedido.SubtotalPedido = (decimal)(product.Cantidad * producto.PrecioUnitario);
                         pedido.TipoPedido = "Local";
-                        pedido.EstadoPedido = "Ordenado";
+                        pedido.EstadoPedido = "Solicitado";
                         pedido.idEmpleado = (int?)employeeId;
                     }
                     context.Pedido.Add(pedido);
@@ -191,6 +192,64 @@ namespace DataAccess
                 result = -1;
             }
             return result;
+        }
+
+        public static List<Pedido> GetDeliveredOrders()
+        {
+            List<Pedido> orders = new List<Pedido>();
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    orders = context.Pedido.Where(p => p.EstadoPedido == "Entregado").ToList();
+                }
+            }
+            catch (SqlException)
+            {
+                orders = null;
+            }
+            catch (InvalidOperationException)
+            {
+                orders = null;
+            }
+            catch (EntityException)
+            {
+                orders = null;
+            }
+            catch (Exception)
+            {
+                orders = null;
+            }
+            return orders;
+        }
+
+        public static List<Pedido> GetCancelledOrders()
+        {
+            List<Pedido> orders = new List<Pedido>();
+            try
+            {
+                using (var context = new AromaCafeBDEntities())
+                {
+                    orders = context.Pedido.Where(p => p.EstadoPedido == "Cancelado").ToList();
+                }
+            }
+            catch (SqlException)
+            {
+                orders = null;
+            }
+            catch (InvalidOperationException)
+            {
+                orders = null;
+            }
+            catch (EntityException)
+            {
+                orders = null;
+            }
+            catch (Exception)
+            {
+                orders = null;
+            }
+            return orders;
         }
     }
 }
