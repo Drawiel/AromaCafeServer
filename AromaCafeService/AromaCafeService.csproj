@@ -88,7 +88,11 @@
     <Compile Include="Models\Charge.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Expense.cs" />
+    <Compile Include="Models\FinancialMovement.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductOrder.cs" />
+    <Compile Include="Models\SaleByWaiterData.cs" />
+    <Compile Include="Models\SalesData.cs" />
     <Compile Include="OrderServiceImplementation.cs" />
     <Compile Include="Models\TableCustomer.cs" />
     <Compile Include="ProductServiceImplementation.cs" />
